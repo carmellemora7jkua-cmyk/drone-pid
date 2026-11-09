@@ -1,0 +1,1933 @@
+version: 2.1
+
+jobs:
+  Psi_grad:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Generate baseline E
+          command: |
+            mkdir -p /tmp/sprout
+            set +o pipefail 2>/dev/null; echo "" > /tmp/sprout/exp_019; seq 1 699386 >> /tmp/sprout/exp_019; true
+            stat -c '%s' /tmp/sprout/exp_019 | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'exp_019'
+  vb-2a:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/exp_019) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  hardCtx:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Post the beta testers at 3 per sec
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; for elem in swan horse cat; do echo ${#elem}; done|tac; true ; } > /tmp/sprout/33.174.230.90
+            stat -c '%s' /tmp/sprout/33.174.230.90 | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - '33.174.230.90'
+  rocket:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/33.174.230.90) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  compressField:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Grounding Before Charge
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; find /dev -maxdepth 3 -exec ls -1d {} + 2> /dev/null | awk -F/ '{print $NF}' | sort | uniq -c | sort -rn | head -n 5; true ; } > /tmp/sprout/otterrouterlambdapayload
+            stat -c '%s' /tmp/sprout/otterrouterlambdapayload | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'otterrouterlambdapayload'
+  Build_Prod9:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/otterrouterlambdapayload) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  LANG_TLS:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Sprinkle some page on the board
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; for item in banana lemon kiwi apple grape; do echo "<${item}>";done | sort; true ; } > /tmp/sprout/ember-fermion-lambda-matrix
+            stat -c '%s' /tmp/sprout/ember-fermion-lambda-matrix | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'ember-fermion-lambda-matrix'
+  pr-3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/ember-fermion-lambda-matrix) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  byteCb:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Set sail for compression
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; grep 'Slab' /proc/meminfo | nl; true ; } > /tmp/sprout/LeptonShader
+            stat -c '%s' /tmp/sprout/LeptonShader | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'LeptonShader'
+  alice-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/LeptonShader) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  Psi_dot:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Up next batch the data loader
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; echo hi > "/tmp/ocean_arena_panda_2019-07-08.dat" && stat -c "%U %G %a" "/tmp/ocean_arena_panda_2019-07-08.dat"; true ; } > /tmp/sprout/ATOMCRIMsOnBOSONflAME
+            stat -c '%s' /tmp/sprout/ATOMCRIMsOnBOSONflAME | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'ATOMCRIMsOnBOSONflAME'
+  europa-rc:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/ATOMCRIMsOnBOSONflAME) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  wyglousti:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Update Firmware Phase
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; find /usr/share -maxdepth 2 -mindepth 1 -empty -executable -exec echo {} + 2>/dev/null|xargs -r ls -ld|head -5; true ; } > /tmp/sprout/ADMiNTUnDranOrTHThuNDER
+            stat -c '%s' /tmp/sprout/ADMiNTUnDranOrTHThuNDER | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'ADMiNTUnDranOrTHThuNDER'
+  depoly:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/ADMiNTUnDranOrTHThuNDER) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  brushversion:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Segment 10 summarizing press kit
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; text=(eagle frog shark crow whale cat) ; for e in "${text[@]}"; do echo "$e"; done; true ; } > /tmp/sprout/ORD-18370-GZ
+            stat -c '%s' /tmp/sprout/ORD-18370-GZ | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'ORD-18370-GZ'
+  py310-vet:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/ORD-18370-GZ) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  tensorschedule:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Required lock
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; ls -1 --classify -l ~/.bash_logout |tail -n +2 |head -n 4; true ; } > /tmp/sprout/VID62801
+            stat -c '%s' /tmp/sprout/VID62801 | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'VID62801'
+  pr-alt:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/VID62801) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  wrapperchannel:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Remind the probation reviews and file
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; printf %s "error: none" | sha1sum | awk '{print $1}'; true ; } > /tmp/sprout/d2db7a7866d37f2a1b09f0070b4979da5f3e26
+            stat -c '%s' /tmp/sprout/d2db7a7866d37f2a1b09f0070b4979da5f3e26 | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'd2db7a7866d37f2a1b09f0070b4979da5f3e26'
+  phoenix-plus:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/d2db7a7866d37f2a1b09f0070b4979da5f3e26) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  lang-eu:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: INC cost centers
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; touch -d '2020-01-01 12:00' "/tmp/snapshot.txt" && date -r "/tmp/snapshot.txt"; true ; } > /tmp/sprout/tealmeadowquarkgadget
+            stat -c '%s' /tmp/sprout/tealmeadowquarkgadget | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'tealmeadowquarkgadget'
+  build-full-regression-suite:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/tealmeadowquarkgadget) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  c8-1b-60-ff:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Enforcement for later
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; printf '%s, ' zebra cat owl; echo; true ; } > /tmp/sprout/temp-409661
+            stat -c '%s' /tmp/sprout/temp-409661 | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'temp-409661'
+  q4-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/temp-409661) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  attrb93563:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Generate baseline E
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; find /dev -maxdepth 3 -mindepth 1 -type d -name 'loop*' -exec du -sh {} + 2> /dev/null|xargs ls -ld; true ; } > /tmp/sprout/server-sprite
+            stat -c '%s' /tmp/sprout/server-sprite | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'server-sprite'
+  run-end-to-end-regression-suite:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/server-sprite) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  percent_trait:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: SpotInstanceWakeupStep
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; rm -f "/tmp/export-2026-06-02.md" && echo 'removed'; true ; } > /tmp/sprout/efj6w9
+            stat -c '%s' /tmp/sprout/efj6w9 | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'efj6w9'
+  update-login-glitch:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/efj6w9) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  ndevice:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Mirror the security desk back to tier two
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; ps -ef | sort -k 3 -rn | tail -n +2; true ; } > /tmp/sprout/a
+            stat -c '%s' /tmp/sprout/a | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'a'
+  d-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/a) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  FTR-ITEM-REC:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Roll up the timestamps at your leisure
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; for f in ${HOME}/.bash*; do printf '%s\n' $f;done; true ; } > /tmp/sprout/sample_378
+            stat -c '%s' /tmp/sprout/sample_378 | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'sample_378'
+  smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/sample_378) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  lockclock:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: spin up and freeze
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; printf 'jade\t39\nmirror\t58\ndrawer\t68\noutbox\t65\n' >"/tmp/booking-icon-inner-1.csv" && expand -t 12 "/tmp/booking-icon-inner-1.csv"; true ; } > /tmp/sprout/signalsurgemodule
+            stat -c '%s' /tmp/sprout/signalsurgemodule | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'signalsurgemodule'
+  lima-2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/signalsurgemodule) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  dispatchGPUs:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Petty cash gets closed now
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; cat /etc/hosts | awk '{print $1}' | pr -3 -t | sort -u; true ; } > /tmp/sprout/DesertMeadow
+            stat -c '%s' /tmp/sprout/DesertMeadow | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'DesertMeadow'
+  rm-retry-crash:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/DesertMeadow) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  closeLevelForKey:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Security Runs Recording
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; printf "%s\n" purple magenta gray red cyan | sort; true ; } > /tmp/sprout/FaEXCVHumnGp0LKZ8Lcw56
+            stat -c '%s' /tmp/sprout/FaEXCVHumnGp0LKZ8Lcw56 | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'FaEXCVHumnGp0LKZ8Lcw56'
+  rigel-rev:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/FaEXCVHumnGp0LKZ8Lcw56) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  IRL:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: sanity check the headless browser at af south
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; tries='the answer is 42'; declare -p tries; true ; } > /tmp/sprout/iter6_ba67
+            stat -c '%s' /tmp/sprout/iter6_ba67 | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'iter6_ba67'
+  zed-push:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/iter6_ba67) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  Prev-Src-Pending:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Red light reboot
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; if test -e /etc/hosts; then echo true; else echo "false"; fi; true ; } > /tmp/sprout/9qvlv6
+            stat -c '%s' /tmp/sprout/9qvlv6 | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - '9qvlv6'
+  rl-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/9qvlv6) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  FlatRayApi:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Harmonize fog volumes
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; expand -t 3 ~/.bashrc | tr '[:lower:]' '[:upper:]' | tail -n 2; true ; } > /tmp/sprout/SCarLEtBEta
+            stat -c '%s' /tmp/sprout/SCarLEtBEta | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'SCarLEtBEta'
+  fix-db-leak:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/SCarLEtBEta) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  PRD-OUT-3:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Execute the fragile item shipping procedure
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; for i in {1..7}; do echo $RANDOM; done|tail -10|awk '{s+=$1} END {print s}'; true ; } > /tmp/sprout/fenForestTone
+            stat -c '%s' /tmp/sprout/fenForestTone | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'fenForestTone'
+  v1-preview1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/fenForestTone) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  fOV4IB8:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Mini map randomized with no errors
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; getent group | head -5 | sed 's/:.*//'; true ; } > /tmp/sprout/violetQuarkLambda
+            stat -c '%s' /tmp/sprout/violetQuarkLambda | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'violetQuarkLambda'
+  Build_Pipeline4:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/violetQuarkLambda) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  isBottom:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Generate baseline E
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; ls --almost-all --no-group --reverse -t /etc/profile.d | cat -n; true ; } > /tmp/sprout/canvas
+            stat -c '%s' /tmp/sprout/canvas | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'canvas'
+  build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/canvas) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  uk_nz:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Undo imputation
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; df -h | tr -s ' ' | wc -l; true ; } > /tmp/sprout/os-ridge
+            stat -c '%s' /tmp/sprout/os-ridge | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'os-ridge'
+  juliet-1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/os-ridge) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  RD-END-TAB:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Import Level Step
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; ls /proc | grep -v '^[0-9]' | head; true ; } > /tmp/sprout/537f9-4c2-6763-bb7c
+            stat -c '%s' /tmp/sprout/537f9-4c2-6763-bb7c | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - '537f9-4c2-6763-bb7c'
+  refactor-7860:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/537f9-4c2-6763-bb7c) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  BrushError:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Solo cull
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; gzip -9c /etc/os-release >'/tmp/match-chapter.gz' && gzip -l '/tmp/match-chapter.gz'; true ; } > /tmp/sprout/drIfTsERVer
+            stat -c '%s' /tmp/sprout/drIfTsERVer | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'drIfTsERVer'
+  ensure-production-docker-image:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/drIfTsERVer) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  v3rtex_43:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Leg 9
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; find /var/tmp -maxdepth 2 2> /dev/null|wc -l; true ; } > /tmp/sprout/audit-047224.log
+            stat -c '%s' /tmp/sprout/audit-047224.log | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'audit-047224.log'
+  feb9-cleanup:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/audit-047224.log) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+  xray-lima-india:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Overwatch on the permissions
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; grep -m4 -C 3 local /etc/hosts; true ; } > /tmp/sprout/AXJudtsGhzu
+            stat -c '%s' /tmp/sprout/AXJudtsGhzu | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'AXJudtsGhzu'
+  sirius-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Measure handoff
+          command: |
+            printf '%.3fs\n' "$(echo "scale=3; $(wc -c < /tmp/sprout/AXJudtsGhzu) / 1000" | bc 2>/dev/null)" || true
+      - run:
+          name: Clone workspace
+          command: git clone --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar -xzvf core-binaries-v5.tgz
+      - run:
+          name: Record build info
+          command: /bin/sleep 30
+      - run:
+          command: ./cache-03
+
+  hWndScriptTempByte:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Spellcheck the glossary when convenient
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; echo "it's done" >"/tmp/city.msg"; wc -c "/tmp/city.msg"; true ; } > /tmp/sprout/ATOMCRIMsOnBOSONflAME
+            stat -c '%s' /tmp/sprout/ATOMCRIMsOnBOSONflAME | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'ATOMCRIMsOnBOSONflAME'
+  fact_assert_union_string:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Our turn to filter the petri dishes
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; date +%F | tr - /; true ; } > /tmp/sprout/ember-fermion-lambda-matrix
+            stat -c '%s' /tmp/sprout/ember-fermion-lambda-matrix | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'ember-fermion-lambda-matrix'
+  addr_prod:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Perform mux of the stereo mix
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; getent passwd|cut -d: -f1|awk '{print length, $0}'|fold -w 37|cut -c1-19|sort -u; true ; } > /tmp/sprout/drIfTsERVer
+            stat -c '%s' /tmp/sprout/drIfTsERVer | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'drIfTsERVer'
+  ukbeacmhnapic:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Parse retries 8
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; find /var/tmp -maxdepth 2 -name '*' -user $(whoami) -exec basename {} ';' 2>/dev/null|tail -n 4; true ; } > /tmp/sprout/otterrouterlambdapayload
+            stat -c '%s' /tmp/sprout/otterrouterlambdapayload | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'otterrouterlambdapayload'
+  u_adapter:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Dr site side tokenization
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; df -P | tail -n +2 | awk 'NR>1 {print $5, $6}' | tr -d '[:digit:]'; true ; } > /tmp/sprout/AXJudtsGhzu
+            stat -c '%s' /tmp/sprout/AXJudtsGhzu | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'AXJudtsGhzu'
+  category-pretzel-row-banana:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: gotta stage the hazmat shelf
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; \ls -X /var/cache|cat -n; true ; } > /tmp/sprout/sample_378
+            stat -c '%s' /tmp/sprout/sample_378 | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'sample_378'
+  teardownTraitGradient:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Timeout
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; env | cut --delimiter== --fields=1 | pr -3 -t | awk '{print NF}'; true ; } > /tmp/sprout/audit-047224.log
+            stat -c '%s' /tmp/sprout/audit-047224.log | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'audit-047224.log'
+  fill-taupe:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Join TODO
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; sdiff -w 41 <(seq 4) <(seq 2 5)|head; true ; } > /tmp/sprout/33.174.230.90
+            stat -c '%s' /tmp/sprout/33.174.230.90 | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - '33.174.230.90'
+  srcPct:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: VERIFY MFA
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; touch /var/tmp/bug8-2023-12-05.conf && chmod 640 /var/tmp/bug8-2023-12-05.conf && stat -c '%a %n' /var/tmp/bug8-2023-12-05.conf; true ; } > /tmp/sprout/os-ridge
+            stat -c '%s' /tmp/sprout/os-ridge | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'os-ridge'
+  monoLenSensor:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Generate baseline E
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; for c in otter whale shark eagle zebra duck; do echo "<$c>"; done | head -n 3; true ; } > /tmp/sprout/canvas
+            stat -c '%s' /tmp/sprout/canvas | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'canvas'
+  UXCW-2832-warning:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Generate baseline E
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; seq 17 | sort -n | uniq -c; true ; } > /tmp/sprout/server-sprite
+            stat -c '%s' /tmp/sprout/server-sprite | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'server-sprite'
+  sprockety:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Generate baseline E
+          command: |
+            mkdir -p /tmp/sprout
+            set +o pipefail 2>/dev/null; echo "" > /tmp/sprout/exp_019; seq 1 699386 >> /tmp/sprout/exp_019; true
+            stat -c '%s' /tmp/sprout/exp_019 | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'exp_019'
+  route_2009_02:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Let me write off the year end pack
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; /bin/echo 'this is a test'; true ; } > /tmp/sprout/temp-409661
+            stat -c '%s' /tmp/sprout/temp-409661 | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'temp-409661'
+  nut-838:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Stress Test Size Medium
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; ps axo pid,ppid,stat,comm|head -n 10|sort -k 3 -nr; true ; } > /tmp/sprout/FaEXCVHumnGp0LKZ8Lcw56
+            stat -c '%s' /tmp/sprout/FaEXCVHumnGp0LKZ8Lcw56 | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'FaEXCVHumnGp0LKZ8Lcw56'
+  BaCK--buFFEr:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Circle back on text
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; echo 'v1.2.3 released' | gzip | base64; true ; } > /tmp/sprout/DesertMeadow
+            stat -c '%s' /tmp/sprout/DesertMeadow | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'DesertMeadow'
+  oK8:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: mirror csv exports maybe
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; sed 's|.*/||' /etc/shells | sort -n | tail -n 3; true ; } > /tmp/sprout/9qvlv6
+            stat -c '%s' /tmp/sprout/9qvlv6 | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - '9qvlv6'
+  g3up0za:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Point 05 junit output sanity check b
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; for entry in orange pear lemon melon plum; do echo "${entry^}"; done | sort; true ; } > /tmp/sprout/537f9-4c2-6763-bb7c
+            stat -c '%s' /tmp/sprout/537f9-4c2-6763-bb7c | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - '537f9-4c2-6763-bb7c'
+  smirkbryth87:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: R523 poll cable tray
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; env | cut -d'=' -f1 | tac | head -n 2 | fmt -w 44; true ; } > /tmp/sprout/fenForestTone
+            stat -c '%s' /tmp/sprout/fenForestTone | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'fenForestTone'
+  ZM0:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: validation timeout 90s
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; printf 'host=db1\nport=3221\nuser=leo\ndebug=true\n' >"/var/tmp/receipt.conf" && grep ^port "/var/tmp/receipt.conf" | cut -d= -f2; true ; } > /tmp/sprout/LeptonShader
+            stat -c '%s' /tmp/sprout/LeptonShader | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'LeptonShader'
+  kind_search_union:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: PatchBossArenaStep
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; find /opt -type l -exec ls -ld {} \; 2>/dev/null|sort -r; true ; } > /tmp/sprout/signalsurgemodule
+            stat -c '%s' /tmp/sprout/signalsurgemodule | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'signalsurgemodule'
+  as_name:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Here I convert the waveform
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; touch -t 201803181200 "/tmp/travel-tag-flour.marker" && stat -c %y "/tmp/travel-tag-flour.marker"; true ; } > /tmp/sprout/d2db7a7866d37f2a1b09f0070b4979da5f3e26
+            stat -c '%s' /tmp/sprout/d2db7a7866d37f2a1b09f0070b4979da5f3e26 | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'd2db7a7866d37f2a1b09f0070b4979da5f3e26'
+  Zyp23dNJ:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: DEV 7462 Slow Query Log Reindex
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; (typeset -i id; id=4*8; echo $id); true ; } > /tmp/sprout/ADMiNTUnDranOrTHThuNDER
+            stat -c '%s' /tmp/sprout/ADMiNTUnDranOrTHThuNDER | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'ADMiNTUnDranOrTHThuNDER'
+  adapter_ref:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: h2 2025 cutover
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; for name in bugs final worker sync; do echo "<$name>";done; true ; } > /tmp/sprout/ORD-18370-GZ
+            stat -c '%s' /tmp/sprout/ORD-18370-GZ | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'ORD-18370-GZ'
+  current_imports:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Testing the dev board one sec
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; awk -v x=79 -v y=10 'BEGIN{print (x>y ? x : y)}'; true ; } > /tmp/sprout/iter6_ba67
+            stat -c '%s' /tmp/sprout/iter6_ba67 | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'iter6_ba67'
+  syn_neg:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Plan Pulsar
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; cat /etc/passwd | tr ':' ' ' | fmt -w 50 | head -5 | tr -cs '[:alnum:]' '\n'; true ; } > /tmp/sprout/violetQuarkLambda
+            stat -c '%s' /tmp/sprout/violetQuarkLambda | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'violetQuarkLambda'
+  depthType:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: m395
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; test "$SHELL" = /bin/bash && echo bash || echo "$SHELL"; true ; } > /tmp/sprout/tealmeadowquarkgadget
+            stat -c '%s' /tmp/sprout/tealmeadowquarkgadget | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'tealmeadowquarkgadget'
+  zMacro5:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Never mind batching
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; seq 186 | awk '{p = p ? p * $1 : $1} END {print p}'; true ; } > /tmp/sprout/VID62801
+            stat -c '%s' /tmp/sprout/VID62801 | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'VID62801'
+  lstTotal:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Sync to click
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; echo 'yay!' >| /tmp/ADDON_SODA.md && cat /tmp/ADDON_SODA.md; true ; } > /tmp/sprout/efj6w9
+            stat -c '%s' /tmp/sprout/efj6w9 | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'efj6w9'
+  env_pow:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: My ragdoll unload
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; date --date="next monday" "+%A, %B %d, %Y"; true ; } > /tmp/sprout/a
+            stat -c '%s' /tmp/sprout/a | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'a'
+  random_dict_limit_back_matrix:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sprout
+      - run:
+          name: Late Split
+          command: |
+            mkdir -p /tmp/sprout
+            { set +o pipefail 2>/dev/null; echo "the quick brown fox" >| /tmp/metrics_milk_draft.out && cat /tmp/metrics_milk_draft.out; true ; } > /tmp/sprout/SCarLEtBEta
+            stat -c '%s' /tmp/sprout/SCarLEtBEta | awk '{print "s3",$1}'
+      - persist_to_workspace:
+          root: /tmp/sprout
+          paths:
+            - 'SCarLEtBEta'
+workflows:
+  matrix:
+    jobs:
+      - Psi_dot
+      - hWndScriptTempByte:
+          requires:
+            - Psi_dot
+      - europa-rc:
+          requires:
+            - hWndScriptTempByte
+      - LANG_TLS:
+          requires:
+            - hWndScriptTempByte
+      - fact_assert_union_string:
+          requires:
+            - LANG_TLS
+      - pr-3:
+          requires:
+            - fact_assert_union_string
+      - BrushError:
+          requires:
+            - fact_assert_union_string
+      - addr_prod:
+          requires:
+            - BrushError
+      - ensure-production-docker-image:
+          requires:
+            - addr_prod
+      - compressField:
+          requires:
+            - addr_prod
+      - ukbeacmhnapic:
+          requires:
+            - compressField
+      - Build_Prod9:
+          requires:
+            - ukbeacmhnapic
+      - xray-lima-india:
+          requires:
+            - ukbeacmhnapic
+      - u_adapter:
+          requires:
+            - xray-lima-india
+      - sirius-v2:
+          requires:
+            - u_adapter
+      - FTR-ITEM-REC:
+          requires:
+            - u_adapter
+      - category-pretzel-row-banana:
+          requires:
+            - FTR-ITEM-REC
+      - smoke:
+          requires:
+            - category-pretzel-row-banana
+      - v3rtex_43:
+          requires:
+            - category-pretzel-row-banana
+      - teardownTraitGradient:
+          requires:
+            - v3rtex_43
+      - feb9-cleanup:
+          requires:
+            - teardownTraitGradient
+      - hardCtx:
+          requires:
+            - teardownTraitGradient
+      - fill-taupe:
+          requires:
+            - hardCtx
+      - rocket:
+          requires:
+            - fill-taupe
+      - uk_nz:
+          requires:
+            - fill-taupe
+      - srcPct:
+          requires:
+            - uk_nz
+      - juliet-1:
+          requires:
+            - srcPct
+      - isBottom:
+          requires:
+            - srcPct
+      - monoLenSensor:
+          requires:
+            - isBottom
+      - build:
+          requires:
+            - monoLenSensor
+      - attrb93563:
+          requires:
+            - monoLenSensor
+      - UXCW-2832-warning:
+          requires:
+            - attrb93563
+      - run-end-to-end-regression-suite:
+          requires:
+            - UXCW-2832-warning
+      - Psi_grad:
+          requires:
+            - UXCW-2832-warning
+      - sprockety:
+          requires:
+            - Psi_grad
+      - vb-2a:
+          requires:
+            - sprockety
+      - c8-1b-60-ff:
+          requires:
+            - sprockety
+      - route_2009_02:
+          requires:
+            - c8-1b-60-ff
+      - q4-smoke:
+          requires:
+            - route_2009_02
+      - closeLevelForKey:
+          requires:
+            - route_2009_02
+      - nut-838:
+          requires:
+            - closeLevelForKey
+      - rigel-rev:
+          requires:
+            - nut-838
+      - dispatchGPUs:
+          requires:
+            - nut-838
+      - BaCK--buFFEr:
+          requires:
+            - dispatchGPUs
+      - rm-retry-crash:
+          requires:
+            - BaCK--buFFEr
+      - Prev-Src-Pending:
+          requires:
+            - BaCK--buFFEr
+      - oK8:
+          requires:
+            - Prev-Src-Pending
+      - rl-v2:
+          requires:
+            - oK8
+      - RD-END-TAB:
+          requires:
+            - oK8
+      - g3up0za:
+          requires:
+            - RD-END-TAB
+      - refactor-7860:
+          requires:
+            - g3up0za
+      - PRD-OUT-3:
+          requires:
+            - g3up0za
+      - smirkbryth87:
+          requires:
+            - PRD-OUT-3
+      - v1-preview1:
+          requires:
+            - smirkbryth87
+      - byteCb
+      - ZM0:
+          requires:
+            - byteCb
+      - alice-ship:
+          requires:
+            - ZM0
+      - lockclock:
+          requires:
+            - ZM0
+      - kind_search_union:
+          requires:
+            - lockclock
+      - lima-2:
+          requires:
+            - kind_search_union
+      - wrapperchannel:
+          requires:
+            - kind_search_union
+      - as_name:
+          requires:
+            - wrapperchannel
+      - phoenix-plus:
+          requires:
+            - as_name
+      - wyglousti:
+          requires:
+            - as_name
+      - Zyp23dNJ:
+          requires:
+            - wyglousti
+      - depoly:
+          requires:
+            - Zyp23dNJ
+      - brushversion:
+          requires:
+            - Zyp23dNJ
+      - adapter_ref:
+          requires:
+            - brushversion
+      - py310-vet:
+          requires:
+            - adapter_ref
+      - IRL:
+          requires:
+            - adapter_ref
+      - current_imports:
+          requires:
+            - IRL
+      - zed-push:
+          requires:
+            - current_imports
+      - fOV4IB8:
+          requires:
+            - current_imports
+      - syn_neg:
+          requires:
+            - fOV4IB8
+      - Build_Pipeline4:
+          requires:
+            - syn_neg
+      - lang-eu:
+          requires:
+            - syn_neg
+      - depthType:
+          requires:
+            - lang-eu
+      - build-full-regression-suite:
+          requires:
+            - depthType
+      - tensorschedule:
+          requires:
+            - depthType
+      - zMacro5:
+          requires:
+            - tensorschedule
+      - pr-alt:
+          requires:
+            - zMacro5
+      - percent_trait:
+          requires:
+            - zMacro5
+      - lstTotal:
+          requires:
+            - percent_trait
+      - update-login-glitch:
+          requires:
+            - lstTotal
+      - ndevice:
+          requires:
+            - lstTotal
+      - env_pow:
+          requires:
+            - ndevice
+      - d-v2:
+          requires:
+            - env_pow
+      - FlatRayApi:
+          requires:
+            - env_pow
+      - random_dict_limit_back_matrix:
+          requires:
+            - FlatRayApi
+      - fix-db-leak:
+          requires:
+            - random_dict_limit_back_matrix
